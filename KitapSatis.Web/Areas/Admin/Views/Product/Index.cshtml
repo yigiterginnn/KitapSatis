@@ -1,0 +1,52 @@
+@model List<Product>
+@{
+    ViewData["Title"] = "Ürünler";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Ürünler</h1>
+    <a asp-action="Create" class="btn btn-primary">+ Yeni Ürün</a>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Resim</th>
+            <th>Ad</th>
+            <th>Yazar</th>
+            <th>Kategori</th>
+            <th>Fiyat</th>
+            <th>Stok</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="@item.Name" style="height: 60px;" />
+                    }
+                </td>
+                <td>@item.Name</td>
+                <td>@item.Author</td>
+                <td>@item.Category?.Name</td>
+                <td>@item.Price.ToString("N2") ₺</td>
+                <td>@item.Stock</td>
+                <td class="text-end">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Home" asp-action="Index">← Admin Paneline Dön</a>
