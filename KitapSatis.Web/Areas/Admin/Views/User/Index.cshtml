@@ -1,0 +1,58 @@
+@model List<KitapSatis.Web.Areas.Admin.Models.UserViewModel>
+@{
+    ViewData["Title"] = "Kullanıcılar";
+}
+
+<h1 class="mb-3">Kullanıcılar</h1>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>E-posta</th>
+            <th>Rol</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    @if (user.IsAdmin)
+                    {
+                        <span class="badge bg-danger">Admin</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Üye</span>
+                    }
+                </td>
+                <td class="text-end">
+                    <form asp-action="ToggleAdmin" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" class="btn btn-sm btn-warning">
+                            @(user.IsAdmin ? "Adminliği Kaldır" : "Admin Yap")
+                        </button>
+                    </form>
+                    <form asp-action="Delete" method="post" class="d-inline"
+                          onsubmit="return confirm('Bu kullanıcıyı silmek istediğine emin misin?');">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Home" asp-action="Index">← Admin Paneline Dön</a>
