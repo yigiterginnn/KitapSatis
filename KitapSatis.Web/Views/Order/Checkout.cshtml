@@ -1,0 +1,95 @@
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Siparişi Tamamla";
+    var cartItems = ViewBag.CartItems as List<CartItem> ?? new List<CartItem>();
+    var total = cartItems.Sum(i => i.Product!.Price * i.Quantity);
+}
+
+<h1 class="mb-4">Siparişi Tamamla</h1>
+
+<form asp-action="Checkout" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card mb-4">
+                <div class="card-header fw-bold">1. Teslimat Bilgileri</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="FullName" class="form-label">Ad Soyad</label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Phone" class="form-label">Telefon</label>
+                        <input asp-for="Phone" class="form-control" placeholder="05XXXXXXXXX" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label">Adres</label>
+                        <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header fw-bold">2. Ödeme Bilgileri</div>
+                <div class="card-body">
+                    <div class="alert alert-info small">
+                        Bu bir demo ödeme formudur. Gerçek ödeme alınmaz, kart bilgileri kaydedilmez.
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CardHolder" class="form-label">Kart Üzerindeki İsim</label>
+                        <input asp-for="CardHolder" class="form-control" />
+                        <span asp-validation-for="CardHolder" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CardNumber" class="form-label">Kart Numarası</label>
+                        <input asp-for="CardNumber" class="form-control" maxlength="16" placeholder="16 haneli kart numarası" />
+                        <span asp-validation-for="CardNumber" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label asp-for="ExpiryDate" class="form-label">Son Kullanma (AA/YY)</label>
+                            <input asp-for="ExpiryDate" class="form-control" maxlength="5" placeholder="08/28" />
+                            <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                        </div>
+                        <div class="col mb-3">
+                            <label asp-for="Cvv" class="form-label">CVV</label>
+                            <input asp-for="Cvv" class="form-control" maxlength="3" placeholder="123" />
+                            <span asp-validation-for="Cvv" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card">
+                <div class="card-header fw-bold">Sipariş Özeti</div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var item in cartItems)
+                    {
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>@item.Product!.Name × @item.Quantity</span>
+                            <span>@((item.Product.Price * item.Quantity).ToString("N2")) ₺</span>
+                        </li>
+                    }
+                    <li class="list-group-item d-flex justify-content-between fw-bold fs-5">
+                        <span>Toplam</span>
+                        <span>@total.ToString("N2") ₺</span>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <button type="submit" class="btn btn-success btn-lg w-100">Siparişi Onayla</button>
+                    <a asp-controller="Cart" asp-action="Index" class="btn btn-link w-100 mt-2">← Sepete Dön</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

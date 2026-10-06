@@ -1,0 +1,15 @@
+@model Order
+@{
+    ViewData["Title"] = "Sipariş Alındı";
+}
+
+<div class="text-center py-5">
+    <div style="font-size: 5rem;">✅</div>
+    <h1>Siparişin alındı!</h1>
+    <p class="fs-5">Sipariş numaran: <strong>#@Model.Id</strong></p>
+    <p class="text-muted">Toplam tutar: @Model.TotalPrice.ToString("N2") ₺ · Durum: @Model.Status</p>
+    <div class="mt-4">
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Sipariş Detayı</a>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Alışverişe Devam Et</a>
+    </div>
+</div>
