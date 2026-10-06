@@ -1,0 +1,74 @@
+@model List<CartItem>
+@{
+    ViewData["Title"] = "Sepetim";
+    var total = Model.Sum(i => i.Product!.Price * i.Quantity);
+}
+
+<h1 class="mb-3">Sepetim</h1>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Sepetin boş. <a asp-controller="Home" asp-action="Index">Alışverişe başla</a>
+    </div>
+}
+else
+{
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Kitap</th>
+                <th>Birim Fiyat</th>
+                <th style="width: 180px;">Adet</th>
+                <th>Ara Toplam</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
+                            @item.Product!.Name
+                        </a>
+                        <div class="text-muted small">@item.Product.Author</div>
+                    </td>
+                    <td>@item.Product.Price.ToString("N2") ₺</td>
+                    <td>
+                        <form asp-action="UpdateQuantity" method="post" class="d-flex gap-1">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <input type="number" name="quantity" value="@item.Quantity"
+                                   min="1" max="@item.Product.Stock" class="form-control form-control-sm" style="width: 70px;" />
+                            <button type="submit" class="btn btn-sm btn-outline-secondary">Güncelle</button>
+                        </form>
+                    </td>
+                    <td>@((item.Product.Price * item.Quantity).ToString("N2")) ₺</td>
+                    <td class="text-end">
+                        <form asp-action="Remove" method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Çıkar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center border-top pt-3">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">← Alışverişe Devam Et</a>
+        <div class="text-end">
+            <div class="fs-4 mb-2">Toplam: <strong>@total.ToString("N2") ₺</strong></div>
+            <a asp-controller="Order" asp-action="Checkout" class="btn btn-success btn-lg">Siparişi Tamamla</a>
+        </div>
+    </div>
+}

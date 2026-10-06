@@ -5,6 +5,11 @@
 
 <a asp-action="Index" class="d-inline-block mb-3">← Tüm Kitaplar</a>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
 <div class="row">
     <div class="col-md-4 mb-4">
         @if (!string.IsNullOrEmpty(Model.ImageUrl))
@@ -25,9 +30,20 @@
 
         @if (Model.Stock > 0)
         {
-            <p class="text-success">Stokta var (@Model.Stock adet)</p>
-            <button class="btn btn-primary btn-lg" disabled>Sepete Ekle</button>
-            <small class="text-muted d-block mt-1">Sepet özelliği bir sonraki adımda eklenecek.</small>
+         <p class="text-success">Stokta var (@Model.Stock adet)</p>
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex gap-2" style="max-width: 260px;">
+        <input type="hidden" name="productId" value="@Model.Id" />
+        <input type="number" name="quantity" value="1" min="1" max="@Model.Stock" class="form-control" style="width: 80px;" />
+        <button type="submit" class="btn btn-primary">Sepete Ekle</button>
+    </form>
+}
+else
+{
+    <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Context.Request.Path"
+       class="btn btn-primary">Sepete eklemek için giriş yap</a>
+}
         }
         else
         {
