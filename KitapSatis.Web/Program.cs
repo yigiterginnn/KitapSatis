@@ -1,7 +1,7 @@
-using KitapSatis.Web.Data;
+using KitapSatis.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using KitapSatis.Web.Data.Repositories;
+using KitapSatis.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

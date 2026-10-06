@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
-using KitapSatis.Web.Entities;
+using KitapSatis.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace KitapSatis.Web.Data.Repositories;
+namespace KitapSatis.Data.Repositories;
 
 public class Repository<T> : IRepository<T> where T : BaseEntity
 {

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace KitapSatis.Web.Data;
+namespace KitapSatis.Data;
 
 public static class SeedData
 {

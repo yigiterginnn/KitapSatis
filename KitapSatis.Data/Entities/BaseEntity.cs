@@ -1,4 +1,4 @@
-namespace KitapSatis.Web.Entities;
+namespace KitapSatis.Data.Entities;
 
 public abstract class BaseEntity
 {

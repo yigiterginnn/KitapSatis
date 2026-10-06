@@ -1,6 +1,6 @@
 using System.Security.Claims;
-using KitapSatis.Web.Data.Repositories;
-using KitapSatis.Web.Entities;
+using KitapSatis.Data.Repositories;
+using KitapSatis.Data.Entities;
 using KitapSatis.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

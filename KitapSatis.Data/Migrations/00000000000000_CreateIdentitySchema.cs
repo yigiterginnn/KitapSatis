@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace KitapSatis.Web.Data.Migrations
+namespace KitapSatis.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

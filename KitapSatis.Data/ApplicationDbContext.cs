@@ -1,8 +1,8 @@
-﻿using KitapSatis.Web.Entities;
+﻿using KitapSatis.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace KitapSatis.Web.Data;
+namespace KitapSatis.Data;
 
 public class ApplicationDbContext : IdentityDbContext
 {

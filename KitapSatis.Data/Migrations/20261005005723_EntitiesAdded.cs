@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace KitapSatis.Web.Data.Migrations
+namespace KitapSatis.Data.Migrations
 {
     /// <inheritdoc />
     public partial class EntitiesAdded : Migration

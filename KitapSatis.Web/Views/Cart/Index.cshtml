@@ -41,7 +41,7 @@ else
                         <a asp-controller="Home" asp-action="Details" asp-route-id="@item.ProductId">
                             @item.Product!.Name
                         </a>
-                        <div class="text-muted small">@item.Product.Author</div>
+                        <div class="text-muted small">@item.Product!.Author</div>
                     </td>
                     <td>@item.Product.Price.ToString("N2") ₺</td>
                     <td>

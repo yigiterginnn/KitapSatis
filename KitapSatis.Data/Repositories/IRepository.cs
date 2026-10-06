@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
-using KitapSatis.Web.Entities;
+using KitapSatis.Data.Entities;
 
-namespace KitapSatis.Web.Data.Repositories;
+namespace KitapSatis.Data.Repositories;
 
 public interface IRepository<T> where T : BaseEntity
 {
