@@ -1,8 +1,83 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    var categories = ViewBag.Categories as List<Category> ?? new List<Category>();
+    int? selectedCategoryId = ViewBag.SelectedCategoryId;
+    string? search = ViewBag.Search;
+    string? sort = ViewBag.Sort;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <!-- SOL: Kategoriler -->
+    <div class="col-md-3 mb-4">
+        <h5>Kategoriler</h5>
+        <div class="list-group">
+            <a asp-action="Index"
+               class="list-group-item list-group-item-action @(selectedCategoryId == null ? "active" : "")">
+                Tüm Kitaplar
+            </a>
+            @foreach (var c in categories)
+            {
+                <a asp-action="Index" asp-route-categoryId="@c.Id"
+                   class="list-group-item list-group-item-action @(selectedCategoryId == c.Id ? "active" : "")">
+                    @c.Name
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- SAĞ: Arama + Ürünler -->
+    <div class="col-md-9">
+        <form asp-action="Index" method="get" class="row g-2 mb-4">
+            <input type="hidden" name="categoryId" value="@selectedCategoryId" />
+            <div class="col-md-7">
+                <input type="text" name="search" value="@search" class="form-control"
+                       placeholder="Kitap adı veya yazar ara..." />
+            </div>
+            <div class="col-md-3">
+                <select name="sort" class="form-select">
+                    <option value="">En Yeniler</option>
+                    <option value="price_asc" selected="@(sort == "price_asc")">Fiyat: Artan</option>
+                    <option value="price_desc" selected="@(sort == "price_desc")">Fiyat: Azalan</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Ara</button>
+            </div>
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">Aradığın kriterlere uygun kitap bulunamadı.</div>
+        }
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+            @foreach (var p in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        @if (!string.IsNullOrEmpty(p.ImageUrl))
+                        {
+                            <img src="@p.ImageUrl" class="card-img-top" alt="@p.Name"
+                                 style="height: 250px; object-fit: cover;" />
+                        }
+                        else
+                        {
+                            <div class="bg-light d-flex align-items-center justify-content-center"
+                                 style="height: 250px; font-size: 4rem;">📚</div>
+                        }
+                        <div class="card-body d-flex flex-column">
+                            <small class="text-muted">@p.Category?.Name</small>
+                            <h5 class="card-title mb-1">@p.Name</h5>
+                            <p class="card-text text-muted mb-2">@p.Author</p>
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <span class="fs-5 fw-bold">@p.Price.ToString("N2") ₺</span>
+                                <a asp-action="Details" asp-route-id="@p.Id" class="btn btn-outline-primary btn-sm">İncele</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>

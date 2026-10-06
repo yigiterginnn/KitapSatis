@@ -1,0 +1,44 @@
+@model Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<a asp-action="Index" class="d-inline-block mb-3">← Tüm Kitaplar</a>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow-sm" />
+        }
+        else
+        {
+            <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                 style="height: 400px; font-size: 6rem;">📚</div>
+        }
+    </div>
+    <div class="col-md-8">
+        <span class="badge bg-secondary mb-2">@Model.Category?.Name</span>
+        <h1>@Model.Name</h1>
+        <p class="fs-5 text-muted">@Model.Author</p>
+        <p class="fs-3 fw-bold">@Model.Price.ToString("N2") ₺</p>
+
+        @if (Model.Stock > 0)
+        {
+            <p class="text-success">Stokta var (@Model.Stock adet)</p>
+            <button class="btn btn-primary btn-lg" disabled>Sepete Ekle</button>
+            <small class="text-muted d-block mt-1">Sepet özelliği bir sonraki adımda eklenecek.</small>
+        }
+        else
+        {
+            <p class="text-danger">Stokta yok</p>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <hr />
+            <h5>Kitap Hakkında</h5>
+            <p>@Model.Description</p>
+        }
+    </div>
+</div>
