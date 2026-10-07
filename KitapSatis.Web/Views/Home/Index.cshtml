@@ -7,6 +7,15 @@
     string? sort = ViewBag.Sort;
 }
 
+@if (selectedCategoryId == null && string.IsNullOrEmpty(search))
+{
+    <div class="p-4 p-md-5 mb-4 rounded-3 text-white shadow-sm"
+         style="background: linear-gradient(135deg, #1e3a5f, #2e86ab);">
+        <h1 class="display-6 fw-bold">Bir sonraki kitabın burada 📖</h1>
+        <p class="fs-5 mb-0">Roman, bilim kurgu ve daha fazlası. Aradığın kitabı bul, sepetine ekle, kapına gelsin.</p>
+    </div>
+}
+
 <div class="row">
     <!-- SOL: Kategoriler -->
     <div class="col-md-3 mb-4">
