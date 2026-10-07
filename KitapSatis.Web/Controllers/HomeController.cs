@@ -63,6 +63,30 @@ public class HomeController : Controller
         return View();
     }
 
+    // Hakkımızda
+public IActionResult About()
+{
+    return View();
+}
+
+// İletişim - formu göster
+public IActionResult Contact()
+{
+    return View(new ContactViewModel());
+}
+
+// İletişim - formu gönder
+[HttpPost]
+[ValidateAntiForgeryToken]
+public IActionResult Contact(ContactViewModel model)
+{
+    if (!ModelState.IsValid)
+        return View(model);
+
+    TempData["Message"] = "Mesajın bize ulaştı, en kısa sürede dönüş yapacağız.";
+    return RedirectToAction(nameof(Contact));
+}
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
