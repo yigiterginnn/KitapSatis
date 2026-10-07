@@ -24,6 +24,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     await SeedData.CreateAdminAsync(scope.ServiceProvider);
+    await SeedData.SeedBooksAsync(scope.ServiceProvider);
 }
 
 // Configure the HTTP request pipeline.
